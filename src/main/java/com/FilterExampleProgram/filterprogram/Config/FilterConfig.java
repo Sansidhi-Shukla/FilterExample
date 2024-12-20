@@ -1,6 +1,7 @@
 package com.FilterExampleProgram.filterprogram.Config;
 
 import com.FilterExampleProgram.filterprogram.Filter.AuthorizationFilter;
+import com.FilterExampleProgram.filterprogram.Filter.IPWhitelistFilter;
 import com.FilterExampleProgram.filterprogram.Filter.LoggingFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +34,20 @@ public class FilterConfig {
 
         // Executes after LoggingFilter
         registrationBean.setOrder(2);
+
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<IPWhitelistFilter> ipWhitelistFilter() {
+
+        FilterRegistrationBean<IPWhitelistFilter> registrationBean = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new IPWhitelistFilter());
+
+        // Apply only to secure routes
+        registrationBean.addUrlPatterns("/students/*");
+        registrationBean.setOrder(3);
 
         return registrationBean;
     }
